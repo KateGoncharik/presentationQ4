@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <p>Hello! We will talk about Three.js</p>
+            <p>
+              Made by
+              <a href="https://github.com/KateGoncharik"> Kate Goncharick </a>
+            </p>
+            <aside class="notes">Greeting</aside>
+          </section>
+          <section>
+            <h1>WebGL and Canvas</h1>
+            <p>
+              WebGL – is a JavaScript software library that allows you to create
+              3D graphics that work in browsers. This library It is based on the
+              architecture of the OpenGL library. WebGL is interesting because
+              the code is modeled directly in the browser. To do this, WebGL
+              uses the canvas object, which was introduced in HTML5.
+            </p>
+          </section>
+
+          <section>
+            <p>
+              Working with WebGL is difficult - you need to describe every line
+              and point. The result will be really verbose.
+            </p>
+
+            <pre>
+              <code>
+  const positions = [
+  // Front face
+  -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+
+  // Back face
+  -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0,
+
+  // Top face
+  -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0,
+
+  // Bottom face
+  -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+
+  // Right face
+  1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0,
+
+  // Left face
+  -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0,
+];
+          </code>
+
+          </pre>
+          </section>
+          <section>
+            <video
+              width="720"
+              height="355"
+              src="./assets/example.mkv"
+              autoplay
+              muted
+              controls
+            ></video>
+
+            <p>
+              Three.js – helps to reduce code amount and make coding more
+              simple. It has a predefined set of classes which will create
+              interactive 3D graphic in WebGL
+            </p>
+            <blockquote>Created by Ricardo Cobello (Mr.Doob).</blockquote>
+          </section>
+        </section>
+
+        <section>
+          <p>There are 3 main terms</p>
+          <ol>
+            <li>Scene</li>
+            <li>Camera</li>
+            <li>Renderer</li>
+          </ol>
+          <aside class="notes">
+            1. Platform for objects 2. the point of view (eye) 3. Shows the
+            scene
+          </aside>
+        </section>
+        <section>
+          <p>There are some types of cameras. The most popular are:</p>
+          <ol>
+            <li>Perspective</li>
+            <li>Orthographic</li>
+          </ol>
+          <img width="700" src="./assets/cameras.jpeg" />
+        </section>
+
+        <section>
+          <p>Also you can control the light</p>
+          <img width="700" src="./assets/light.jpeg" />
+        </section>
+        <section>
+          <section>
+            <p>The object on the Scene is called Mesh.</p>
+            <p>
+              Mesh — is a class, representing objects based on a triangular
+              polygonal grid. Constructor takes two arguments:
+            </p>
+            <ol>
+              <li>Geometry — which describes the shape.</li>
+              <li>Material — which describes texture.</li>
+            </ol>
+          </section>
+
+          <section>
+            <pre width="600">
+              <code >
+  import * as THREE from 'three';
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+
+  const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+  const cube = new THREE.Mesh( geometry, material );
+  scene.add( cube );
+
+  camera.position.z = 5;
+
+  function animate() {
+    requestAnimationFrame( animate );
+
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render( scene, camera );
+  }
+
+  animate();
+              </code>
+            </pre>
+            >
+          </section>
+          <section>
+            <img width="400" src="./assets/BANano3D_Lesson_06.gif" />
+          </section>
+        </section>
+        <section>
+          Can I use three.js in Node.js? Because three.js is built for the web,
+          it depends on browser and DOM APIs that don't always exist in Node.js.
+        </section>
+        <section>Thanks for your attention!</section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
